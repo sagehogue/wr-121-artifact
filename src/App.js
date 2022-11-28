@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+import Cube from "./Cube/Cube";
+
+const Background = styled.div`
+  background-color: #535f70;
+  height: 100%;
+  width: 100%;
+`;
+
+let Scene = styled.div`
+  margin: 0;
+  height: 100vh;
+  perspective: 35em;
+  font-size: 2em;
+`;
 
 function App() {
   return (
-    <div className="App">
+    <Background>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Scene>
+          <Cube />
+        </Scene>
       </header>
-    </div>
+    </Background>
   );
 }
 
