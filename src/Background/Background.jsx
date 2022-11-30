@@ -51,7 +51,6 @@ const Wrapper = styled.div`
 `;
 
 const Layer = styled.div`
-  transition: all 0.2s;
   position: absolute;
   width: 150vw;
   height: 150vw;
@@ -138,7 +137,7 @@ export default function Background({ children }) {
 
   useEffect(() => {
     // maybe web animations api instead of state...
-    console.log(layerOne.current.style.transform);
+
     // setLayerOneTransform(`${mouseX * ratio}px ${mouseY * ratio}px`);
     // setLayerTwoTransform(
     //   `${(mouseX * ratio) / 2}px ${(mouseY * ratio) / 2}px rotate(217deg)`

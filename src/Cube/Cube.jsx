@@ -20,32 +20,41 @@ let CubeSpace = styled(Base)`
 
   font-size: 8vmin;
   //   vmin units are set relative to vh or vw, whichever is smaller
-
+  // rotateY(270deg) turns one way, rotateY(-90deg) turns the other way to the same side.
+  // Side1: rotateY(0deg);
+  // Side2: rotateY(270deg) | rotateY(-90deg);
+  // Side3: rotateY(180deg) | rotateY(-180deg);
+  // Side4: rotateY(90deg) | rotateY(-270deg);
+  // Side5: rotateY(0deg) rotateX(270deg) | rotateX(-90deg);
+  // Side6: rotateY(0deg) rotateX(90deg) | rotateX(-270deg);
   @keyframes animExample {
-    0% {
-      // Side1: rotateY(0deg);
+    // Thoughts: Perhaps I should do a 3 part anim for each side turn. 1 zoom out 2 rotate 3 zoom in
 
+    0% {
       transform: rotateY(0deg);
     }
-    16.6% {
-      // Side4: rotateY(90deg);
-      transform: rotateY(90deg);
+    8.3% {
+      transform: scale3d(0.75, 0.75, 0.75);
     }
+    16.6% {
+      transform: rotateY(-90deg);
+    }
+
+    24.9% {
+      transform: rotateY(-90deg) scale3d(0.75, 0.75, 0.75);
+    }
+
     33.3% {
-      // Side3: rotateY(180deg);
-      transform: rotateY(180deg);
+      transform: rotateY(-180deg);
     }
     50% {
-      // Side2: rotateY(270deg);
-      transform: rotateY(270deg);
+      transform: rotateY(-270deg);
     }
     66.6% {
-      // Side6: rotateY(0deg) rotateX(90deg);
-      transform: rotateY(0deg) rotateX(90deg);
+      transform: rotateX(-90deg);
     }
     83.3% {
-      // Side5: rotateY(0deg) rotateX(270deg);
-      transform: rotateY(0deg) rotateX(270deg);
+      transform: rotateX(90deg);
     }
     100% {
       transform: rotateY(0deg);
