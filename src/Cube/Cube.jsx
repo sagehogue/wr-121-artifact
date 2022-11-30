@@ -23,21 +23,28 @@ let CubeSpace = styled(Base)`
 
   @keyframes animExample {
     0% {
+      // Side1: rotateY(0deg);
+
       transform: rotateY(0deg);
     }
     16.6% {
+      // Side4: rotateY(90deg);
       transform: rotateY(90deg);
     }
     33.3% {
+      // Side3: rotateY(180deg);
       transform: rotateY(180deg);
     }
     50% {
+      // Side2: rotateY(270deg);
       transform: rotateY(270deg);
     }
     66.6% {
+      // Side6: rotateY(0deg) rotateX(90deg);
       transform: rotateY(0deg) rotateX(90deg);
     }
     83.3% {
+      // Side5: rotateY(0deg) rotateX(270deg);
       transform: rotateY(0deg) rotateX(270deg);
     }
     100% {
@@ -45,7 +52,7 @@ let CubeSpace = styled(Base)`
     }
   }
 
-  //   animation: animExample 30s ease-in-out infinite;
+  animation: animExample 10s ease-in-out infinite;
   //   keyframe animation
 `;
 
@@ -87,17 +94,60 @@ let Face = styled(Base)`
 
     transform: rotate3d(var(--i), calc(1 - var(--i)), 0, calc(var(--m, 0)*90deg)) translateZ(calc(0.5 * ${cubeEdge}));
   // position of each cube face
+
+  backface-visibility: hidden;
+  //   This way I can't see the backs of each face!
+`;
+
+const FaceContent = styled.div`
+  text-align: center;
+  display: flex;
+  align-content: center;
+  margin: auto;
+  background-color: rgba(166, 177, 225, 0.45);
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+const Text = styled.span`
+  width: 100%;
+  margin: auto;
 `;
 
 export default function Cube() {
   return (
     <CubeSpace>
-      <Face />
-      <Face />
-      <Face />
-      <Face />
-      <Face />
-      <Face />
+      <Face>
+        <FaceContent>
+          <Text>1</Text>
+        </FaceContent>
+      </Face>
+      <Face>
+        <FaceContent>
+          <Text>2</Text>
+        </FaceContent>
+      </Face>
+      <Face>
+        <FaceContent>
+          <Text>3</Text>
+        </FaceContent>
+      </Face>
+      <Face>
+        <FaceContent>
+          <Text>4</Text>
+        </FaceContent>
+      </Face>
+      <Face>
+        <FaceContent>
+          <Text>5</Text>
+        </FaceContent>
+      </Face>
+      <Face>
+        <FaceContent>
+          <Text>6</Text>
+        </FaceContent>
+      </Face>
     </CubeSpace>
   );
 }
