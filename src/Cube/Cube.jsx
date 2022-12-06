@@ -1,6 +1,18 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
+import FaceOne from "../Faces/FaceOne";
+
+import FaceTwo from "../Faces/FaceTwo";
+
+import FaceThree from "../Faces/FaceThree";
+
+import FaceFour from "../Faces/FaceFour";
+
+import FaceFive from "../Faces/FaceFive";
+
+import FaceSix from "../Faces/FaceSix";
+
 const cubeEdge = `8em`;
 
 // Shared rules
@@ -18,7 +30,8 @@ let CubeSpace = styled(Base)`
   // These two place the cube in the middle of the screen. Positioning with offset or margin is preferable for initial positioning, but transforms are used
   // for animating position changes in a more performant manner.
 
-  font-size: 8vmin;
+  font-size: 8.85vmin;
+
   //   vmin units are set relative to vh or vw, whichever is smaller
   // rotateY(270deg) turns one way, rotateY(-90deg) turns the other way to the same side.
   // Side1: rotateY(0deg);
@@ -61,7 +74,7 @@ let CubeSpace = styled(Base)`
     }
   }
 
-  animation: animExample 10s ease-in-out infinite;
+  // animation: animExample 10s ease-in-out infinite;
   //   keyframe animation
 `;
 
@@ -108,17 +121,6 @@ let Face = styled(Base)`
   //   This way I can't see the backs of each face!
 `;
 
-const FaceContent = styled.div`
-  text-align: center;
-  display: flex;
-  align-content: center;
-  margin: auto;
-  background-color: rgba(166, 177, 225, 0.45);
-  position: relative;
-  width: 100%;
-  height: 100%;
-`;
-
 const Text = styled.span`
   width: 100%;
   margin: auto;
@@ -128,34 +130,34 @@ export default function Cube() {
   return (
     <CubeSpace>
       <Face>
-        <FaceContent>
-          <Text>1</Text>
-        </FaceContent>
+        <FaceOne></FaceOne>
       </Face>
       <Face>
-        <FaceContent>
-          <Text>2</Text>
-        </FaceContent>
-      </Face>
-      <Face>
-        <FaceContent>
+        <FaceTwo></FaceTwo>
+        {/* <FaceContent>
           <Text>3</Text>
-        </FaceContent>
+        </FaceContent> */}
       </Face>
       <Face>
-        <FaceContent>
+        <FaceThree></FaceThree>
+      </Face>
+      <Face>
+        <FaceFour></FaceFour>
+        {/* <FaceContent>
           <Text>4</Text>
-        </FaceContent>
+        </FaceContent> */}
       </Face>
       <Face>
-        <FaceContent>
+        <FaceFive></FaceFive>
+        {/* <FaceContent>
           <Text>5</Text>
-        </FaceContent>
+        </FaceContent> */}
       </Face>
       <Face>
-        <FaceContent>
+        <FaceSix></FaceSix>
+        {/* <FaceContent>
           <Text>6</Text>
-        </FaceContent>
+        </FaceContent> */}
       </Face>
     </CubeSpace>
   );
