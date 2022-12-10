@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 
 import FaceOne from "../Faces/FaceOne";
@@ -15,14 +16,80 @@ import FaceSix from "../Faces/FaceSix";
 
 const cubeEdge = `8em`;
 
+const duration = 5;
+
+const animVars = {
+  scale: 0.25,
+};
+
 // Shared rules
-let Base = styled.div`
+let Base = styled(motion.div)`
   position: absolute;
 
   transform-style: preserve-3d;
   // So faces (children) don't get squished onto its same plane
   // This is only necessary because I intend to populate the cube faces with content... if there were no nested divs it would only be needed in cube.
 `;
+//   vmin units are set relative to vh or vw, whichever is smaller
+// rotateY(270deg) turns one way, rotateY(-90deg) turns the other way to the same side.
+// Side1: rotateY(0deg);
+// Side2: rotateY(270deg) | rotateY(-90deg);
+// Side3: rotateY(180deg) | rotateY(-180deg);
+// Side4: rotateY(90deg) | rotateY(-270deg);
+// Side5: rotateY(0deg) rotateX(270deg) | rotateX(-90deg);
+// Side6: rotateY(0deg) rotateX(90deg) | rotateX(-270deg);
+export const variants = {
+  zoomOut: { scale: [null, animVars.scale] },
+  FaceOneFar: {
+    rotateY: 0,
+    scale: [null, animVars.scale],
+    transition: {
+      when: "beforeChildren",
+      ease: "easeInOut",
+      rotateY: {
+        delay: duration,
+        duration,
+      },
+    },
+  },
+  FaceOneClose: {
+    rotateY: 0,
+    scale: [null, 1],
+
+    transition: {
+      when: "beforeChildren",
+      ease: "easeInOut",
+      duration,
+    },
+  },
+  FaceTwoClose: {
+    rotateY: [null, null, -90, -90],
+    scale: [null, animVars.scale, animVars.scale, 1],
+
+    transition: {
+      when: "beforeChildren",
+      ease: "easeInOut",
+      duration,
+      // rotateY: {
+      //   delay: duration,
+      //   duration,
+      // },
+    },
+  },
+  FaceThreeClose: {
+    rotateY: [null, -90, -180, -180],
+    scale: [1, animVars.scale, animVars.scale, 1],
+
+    transition: {
+      // when: "beforeChildren",
+      ease: "easeInOut",
+      duration,
+      rotateY: {
+        duration,
+      },
+    },
+  },
+};
 
 let CubeSpace = styled(Base)`
   top: 50%;
@@ -32,50 +99,24 @@ let CubeSpace = styled(Base)`
 
   font-size: 8.85vmin;
 
-  //   vmin units are set relative to vh or vw, whichever is smaller
-  // rotateY(270deg) turns one way, rotateY(-90deg) turns the other way to the same side.
-  // Side1: rotateY(0deg);
-  // Side2: rotateY(270deg) | rotateY(-90deg);
-  // Side3: rotateY(180deg) | rotateY(-180deg);
-  // Side4: rotateY(90deg) | rotateY(-270deg);
-  // Side5: rotateY(0deg) rotateX(270deg) | rotateX(-90deg);
-  // Side6: rotateY(0deg) rotateX(90deg) | rotateX(-270deg);
-  @keyframes animExample {
-    // Thoughts: Perhaps I should do a 3 part anim for each side turn. 1 zoom out 2 rotate 3 zoom in
+  /*${(props) => {
+    switch (props.displayFace) {
+      case 1:
+        return `transform: rotateY(0deg);`;
+      case 2:
+        return `transform: rotateY(-90deg);`;
+      case 3:
+        return `transform: rotateY(-180deg);`;
+      case 4:
+        return `transform: rotateY(-270deg);`;
 
-    0% {
-      transform: rotateY(0deg);
+      case 5:
+        return `transform: rotateY(-90deg);`;
+      case 6:
+        return `transform: rotateY(-90deg);`;
     }
-    8.3% {
-      transform: scale3d(0.75, 0.75, 0.75);
-    }
-    16.6% {
-      transform: rotateY(-90deg);
-    }
-
-    24.9% {
-      transform: rotateY(-90deg) scale3d(0.75, 0.75, 0.75);
-    }
-
-    33.3% {
-      transform: rotateY(-180deg);
-    }
-    50% {
-      transform: rotateY(-270deg);
-    }
-    66.6% {
-      transform: rotateX(-90deg);
-    }
-    83.3% {
-      transform: rotateX(90deg);
-    }
-    100% {
-      transform: rotateY(0deg);
-    }
-  }
-
-  // animation: animExample 10s ease-in-out infinite;
-  //   keyframe animation
+  }}*/
+  ${(props) => (props.displayFace ? ";" : ";")}
 `;
 
 // function createCSS
@@ -119,42 +160,62 @@ let Face = styled(Base)`
 
   backface-visibility: hidden;
   //   This way I can't see the backs of each face!
-`;
 
-const Text = styled.span`
-  width: 100%;
-  margin: auto;
+  display: flex;
+  align-content: flex-start;
 `;
 
 export default function Cube() {
+  let test = variants.FaceTwoClose;
+  const [animationState, setAnimationState] = useState(
+    test ? test : variants.FaceOneClose
+  );
+  let [surfaceAnimationState, setSurfaceAnimationStater] = useState("display");
+  // let toggleSurfaceAnim = () => {
+  //   surfaceAnimationState === "display" ? "pulse" : "display";
+  // };
   return (
-    <CubeSpace>
+    <CubeSpace variants={variants} animate={animationState}>
       <Face>
-        <FaceOne></FaceOne>
+        <FaceOne
+          cubeController={setAnimationState}
+          cubeStates={variants}
+          state={animationState}
+        ></FaceOne>
       </Face>
       <Face>
-        <FaceTwo></FaceTwo>
+        <FaceTwo
+          cubeController={setAnimationState}
+          cubeStates={variants}
+          state={animationState}
+          animationDuration={duration}
+        ></FaceTwo>
         {/* <FaceContent>
           <Text>3</Text>
         </FaceContent> */}
       </Face>
       <Face>
-        <FaceThree></FaceThree>
+        <FaceThree
+          cubeController={setAnimationState}
+          cubeStates={variants}
+          state={animationState}
+          animationDuration={duration}
+        ></FaceThree>
       </Face>
       <Face>
-        <FaceFour></FaceFour>
+        <FaceFour state={animationState}></FaceFour>
         {/* <FaceContent>
           <Text>4</Text>
         </FaceContent> */}
       </Face>
       <Face>
-        <FaceFive></FaceFive>
+        <FaceFive state={animationState}></FaceFive>
         {/* <FaceContent>
           <Text>5</Text>
         </FaceContent> */}
       </Face>
       <Face>
-        <FaceSix></FaceSix>
+        <FaceSix state={animationState}></FaceSix>
         {/* <FaceContent>
           <Text>6</Text>
         </FaceContent> */}
