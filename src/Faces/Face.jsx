@@ -148,6 +148,15 @@ export const Headline = styled.h1`
 `;
 
 export const cubeSurfaceVariants = {
+  initial: {
+    opacity: [null, 1, 1],
+    backgroundColor: [null, "rgba(0,0,0,0)", "rgba(0,0,0,0)"],
+    transition: {
+      // when: "beforeChildren",
+      ease: "easeInOut",
+      duration: 4.5,
+    },
+  },
   pulse: {
     opacity: [null, 1, 1],
     backgroundColor: [null, "#C179B9", "rgba(0,0,0,0)"],
@@ -160,12 +169,12 @@ export const cubeSurfaceVariants = {
 };
 
 export default function Face({ children, state = false, togglePulse }) {
-  let [animationState, setAnimationState] = useState("display");
+  let [animationState, setAnimationState] = useState("initial");
   useEffect(() => {
-    console.log(
-      `Hello! Anim state change registerd in Face.jsx. animation: ${state}`
-    );
-    setAnimationState("pulse");
+    // console.log(
+    //   `Hello! Anim state change registerd in Face.jsx. animation: ${state}`
+    // );
+    // setAnimationState("pulse");
     // return () => {
     //   second;
     // };
@@ -174,6 +183,9 @@ export default function Face({ children, state = false, togglePulse }) {
     <FaceContent
       variants={cubeSurfaceVariants}
       animate={animationState ? animationState : false}
+      onAnimationComplete={() => {
+        setAnimationState("initial");
+      }}
     >
       {children}
     </FaceContent>

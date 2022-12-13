@@ -18,12 +18,10 @@ export default function FaceTwo({
 
   const IncrementAnimState = () => {
     setAnimationCount(animationCount + 1);
-    console.log(`Face2 anim state incremented: ${animationCount}`);
   };
 
   useEffect(() => {
     let newContent = () => {
-      console.log("Getting next content");
       let initialContent = [
         <AnimatedHeadline
           delay={animationDuration}
@@ -36,10 +34,8 @@ export default function FaceTwo({
       ];
       switch (animationCount) {
         case 0:
-          console.log(`Animation count: ${animationCount}`);
           return initialContent;
         case 1:
-          console.log(`Animation count: ${animationCount}`);
           return (
             <AnimatedText
               callback={() => {

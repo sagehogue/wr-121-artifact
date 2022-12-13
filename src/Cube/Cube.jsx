@@ -63,7 +63,7 @@ export const variants = {
     },
   },
   FaceTwoClose: {
-    rotateY: [null, null, -90, -90],
+    rotateY: [0, 0, -90, -90],
     scale: [null, animVars.scale, animVars.scale, 1],
 
     transition: {
@@ -77,16 +77,52 @@ export const variants = {
     },
   },
   FaceThreeClose: {
-    rotateY: [null, -90, -180, -180],
-    scale: [1, animVars.scale, animVars.scale, 1],
+    rotateY: [-90, -90, -180, -180],
+    scale: [null, animVars.scale, animVars.scale, 1],
 
     transition: {
-      // when: "beforeChildren",
+      when: "beforeChildren",
       ease: "easeInOut",
       duration,
-      rotateY: {
-        duration,
-      },
+      // rotateY: {
+      //   duration,
+      // },
+    },
+  },
+  // For some reason there's no zoomout before switching to side 4. Also delay functions without zoom out so there's dead time.
+  FaceFourClose: {
+    rotateY: [-180, -180, -270, -270],
+    scale: [null, animVars.scale, animVars.scale, 1],
+    transition: {
+      ease: "easeInOut",
+      duration,
+      // rotateY: {
+      //   duration,
+      // },
+    },
+  },
+  FaceFiveClose: {
+    rotateY: [-270, -270, 0, 0],
+    rotateX: [0, 0, 270, 270],
+    scale: [null, animVars.scale, animVars.scale, 1],
+    transition: {
+      ease: "easeInOut",
+      duration,
+      // rotateY: {
+      //   duration,
+      // },
+    },
+  },
+  FaceSixClose: {
+    rotateY: [0, 0, 0, 0],
+    rotateX: [270, 270, 90, 90],
+    scale: [null, animVars.scale, animVars.scale, 1],
+    transition: {
+      ease: "easeInOut",
+      duration,
+      // rotateY: {
+      //   duration,
+      // },
     },
   },
 };
@@ -166,14 +202,11 @@ let Face = styled(Base)`
 `;
 
 export default function Cube() {
-  let test = variants.FaceTwoClose;
+  let test = variants.FaceSixClose;
   const [animationState, setAnimationState] = useState(
     test ? test : variants.FaceOneClose
   );
-  let [surfaceAnimationState, setSurfaceAnimationStater] = useState("display");
-  // let toggleSurfaceAnim = () => {
-  //   surfaceAnimationState === "display" ? "pulse" : "display";
-  // };
+
   return (
     <CubeSpace variants={variants} animate={animationState}>
       <Face>
@@ -203,19 +236,34 @@ export default function Cube() {
         ></FaceThree>
       </Face>
       <Face>
-        <FaceFour state={animationState}></FaceFour>
+        <FaceFour
+          cubeController={setAnimationState}
+          cubeStates={variants}
+          state={animationState}
+          animationDuration={duration}
+        ></FaceFour>
         {/* <FaceContent>
           <Text>4</Text>
         </FaceContent> */}
       </Face>
       <Face>
-        <FaceFive state={animationState}></FaceFive>
+        <FaceFive
+          cubeController={setAnimationState}
+          cubeStates={variants}
+          state={animationState}
+          animationDuration={duration}
+        ></FaceFive>
         {/* <FaceContent>
           <Text>5</Text>
         </FaceContent> */}
       </Face>
       <Face>
-        <FaceSix state={animationState}></FaceSix>
+        <FaceSix
+          cubeController={setAnimationState}
+          cubeStates={variants}
+          state={animationState}
+          animationDuration={duration}
+        ></FaceSix>
         {/* <FaceContent>
           <Text>6</Text>
         </FaceContent> */}

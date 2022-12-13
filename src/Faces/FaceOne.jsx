@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { Textillate } from "textillate-react";
-import Next from "../assets/next.svg";
+import Next from "./Next/Next";
 import Face, {
   Text,
   Headline,
@@ -93,23 +93,30 @@ const pulse = keyframes`
 }
 `;
 
-const NextButton = styled(motion.div)`
-  color: rgba(205, 205, 245, 0.75);
-  background-color: rgba(225, 225, 225, 0.35);
-  border: 2px solid rgba(205, 205, 245, 0.75);
-  padding: 0;
+// const NextButton = styled(Next)`
+//   color: rgba(205, 205, 245, 0.75);
+//   background-color: rgba(225, 225, 225, 0.35);
+//   border: 2px solid rgba(205, 205, 245, 0.75);
+//   padding: 0;
+//   position: absolute;
+//   top: 45%;
+//   right: -15%;
+//   border-radius: 10px;
+//   cursor: pointer;
+//   & > p {
+//     margin: 0;
+//     font-size: 1.75rem;
+//     padding: 0.5rem;
+//     animation: ${pulse} 10s ease-in-out infinite;
+//   }
+//   animation: ${bounce} 10s ease-in-out infinite;
+// `;
+
+const Position = styled.div`
   position: absolute;
   top: 45%;
   right: -15%;
-  border-radius: 10px;
   cursor: pointer;
-  & > p {
-    margin: 0;
-    font-size: 1.75rem;
-    padding: 0.5rem;
-    animation: ${pulse} 10s ease-in-out infinite;
-  }
-  animation: ${bounce} 10s ease-in-out infinite;
 `;
 
 export default function FaceOne({ cubeController, cubeStates }) {
@@ -128,25 +135,28 @@ export default function FaceOne({ cubeController, cubeStates }) {
   // }, [rotateToSide2]);
 
   const nextButton = (
-    <NextButton
-      animate={{
-        opacity: 1,
-      }}
-      transition={{
-        ease: "easeOut",
-        duration: 2,
-        // times: [0, 0.5, 0.75, 0.85, 1],
-        // repeat: Infinity,
-        // repeatDelay: 2.5,
-      }}
-      initial={{ opacity: 0 }}
-      onClick={() => {
-        cubeController(cubeStates.FaceTwoClose);
-      }}
-    >
-      <Text>&gt;</Text>
-    </NextButton>
+    <Position onClick={() => cubeController(cubeStates.FaceTwoClose)}>
+      <Next animation={{ opacity: [0, 1] }} />
+    </Position>
   );
+  // <NextButton
+  //   animate={{
+  //     opacity: [0, 1],
+  //   }}
+  //   transition={{
+  //     ease: "easeOut",
+  //     duration: 2,
+  //     // times: [0, 0.5, 0.75, 0.85, 1],
+  //     // repeat: Infinity,
+  //     // repeatDelay: 2.5,
+  //   }}
+  //   initial={{ opacity: 0 }}
+  //   onClick={() => {
+  //     cubeController(cubeStates.FaceTwoClose);
+  //   }}
+  // >
+  //   <Text>&gt;</Text>
+  // </NextButton>
 
   const Paragraph1 = (
     <AnimatedText callback={() => setShowImg(true)}>
@@ -176,7 +186,7 @@ export default function FaceOne({ cubeController, cubeStates }) {
           }}
         />
       ) : null}
-      {showNextButton ? nextButton : null}
+      <Position>{showNextButton ? nextButton : null}</Position>
     </ImageWrapper>
   );
 
